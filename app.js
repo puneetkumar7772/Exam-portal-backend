@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const categoryRoute = require("./routes/categoryRoutes");
 const QuizzeRoute = require("./routes/addQuizzeRoute");
 const userRoute = require("./routes/userRoutes");
+const questionRoute = require("./routes/questionRoute");
+
 
 const cors = require("cors");
 const app = express();
@@ -13,6 +15,8 @@ app.use(cors());
 app.use("/examportal", categoryRoute);
 app.use("/examportal", QuizzeRoute);
 app.use("/examportal", userRoute);
+app.use("/examportal", questionRoute);
+
 
 
 app.listen(port, () => {

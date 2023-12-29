@@ -12,9 +12,7 @@ exports.addQuizze = async (req, res) => {
     } = req.body;
     const data = await Quizze.findOne({ quizzeTitle });
     if (data) {
-      return res
-        .status(400)
-        .json({ error: "Duplicate quiz is not allowed" });
+      return res.status(400).json({ error: "Duplicate quiz is not allowed" });
     }
     const newQuizze = new Quizze({
       quizzeTitle,

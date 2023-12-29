@@ -1,12 +1,20 @@
 const Question = require("../models/questionModel");
+const Quizze = require("../models/addQuizzeModel");
 
 exports.addQuestions = async (req, res) => {
   try {
-    const { question, answer, ...options } = req.body;
+    const { question, answer, options, quizID } = req.body;
+    console.log("222222222", quizID);
+    const quiz = await Quizze.findById(quizID);
+    console.log("111111111", quiz);
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
     const newQuestion = new Question({
       question,
       answer,
-      ...options,
+      options,
+      quiz: quiz._id, // Reference to the quiz
     });
     await newQuestion.save();
     res.status(201).json({ message: "Question Add successfully" });
@@ -15,12 +23,20 @@ exports.addQuestions = async (req, res) => {
   }
 };
 
-exports.getQuestion = async (req, res) => {
+exports.getQuestionsByQuizId = async (req, res) => {
   try {
-    const questions = await Question.find();
+    const { quizID } = req.params;
+
+    console.log("#########3", quizID);
+    const quiz = await Quizze.findById(quizID);
+    console.log("@@@@@@@@@", quiz);
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+    const questions = await Question.find({ quiz: quiz._id });
     res.status(200).json(questions);
   } catch (error) {
-    res.status(500).json({ error: "Question is not present" });
+    res.status(500).json({ error: "Error fetching questions" });
   }
 };
 
@@ -32,7 +48,7 @@ exports.deleteQuestionById = async (req, res) => {
     if (!QuestionId) {
       return res.status(404).json({ error: "Question not found" });
     }
-    res.status(200).json({error:"Question deleted successfully"})
+    res.status(200).json({ error: "Question deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: "Internal server" });
   }

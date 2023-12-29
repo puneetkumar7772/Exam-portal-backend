@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const addQuestion = new mongoose.Schema({
   question: {
     type: String,
@@ -28,6 +27,11 @@ const addQuestion = new mongoose.Schema({
   answer: {
     type: String,
     required: true,
+  },
+
+  quiz: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Quizze',
   },
 });
 

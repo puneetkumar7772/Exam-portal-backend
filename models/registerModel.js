@@ -20,10 +20,6 @@ const registerUser = new mongoose.Schema({
     type: String,
     required: true,
   },
-  confirmedPassword: {
-    type: String,
-    required: true,
-  },
 });
 
 const User = mongoose.model("User", registerUser);

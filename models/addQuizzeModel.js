@@ -25,6 +25,7 @@ const addQuizzeSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  question:[]
 });
 
 const Quizze = mongoose.model("Quizze", addQuizzeSchema);

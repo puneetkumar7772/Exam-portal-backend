@@ -41,7 +41,7 @@ exports.deleteCategories = async (req, res) => {
     }
     res.status(200).json("Category is deleted successfully");
   } catch (error) {
-    res.status(500).json({ error: "Internal server" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

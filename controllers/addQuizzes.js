@@ -100,3 +100,18 @@ exports.updateData = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+exports.getQuizzesByStatus = async (req, res) => {
+  try {
+    const isActive =
+      Boolean(req.query.status) && req.query.status.toLowerCase() === "true";
+    const query = { status: true };
+    if (isActive) {
+      query.status  =false;
+    }
+    const quizzes = await Quizze.find(query);
+    res.status(200).json(quizzes);
+  } catch (error) {
+    res.status(500).json({ error: "Error retrieving quizzes" });
+  }
+};

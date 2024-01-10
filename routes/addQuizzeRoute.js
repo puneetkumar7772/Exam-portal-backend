@@ -8,5 +8,7 @@ router.get("/getQuizze/:category", QuizzeController.quizzeByCategory);
 router.get("/deleteQuiz/:id", QuizzeController.deleteQuiz);
 router.get("/getQuizById/:id", QuizzeController.quizzById);
 router.put("/update/:id", QuizzeController.updateData);
+router.get("/quizzes", QuizzeController.getQuizzesByStatus);
+
 
 module.exports = router;

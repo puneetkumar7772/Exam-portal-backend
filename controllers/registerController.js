@@ -44,12 +44,16 @@ exports.loginUser = async (req, res) => {
     if (!pass) {
       return res.status(404).json({ error: "Incorrect Email and Password" });
     }
-    const authToken = await jwt.sign({ id: existEmail.id }, "abcd");
+    const authToken = await jwt.sign(
+      { id: existEmail.id, email: existEmail.email, role: existEmail.role },
+      "abcd"
+    );
     console.log("#########", authToken);
-
-    return res
-      .status(200)
-      .json({ success: "Login successfully", token: authToken });
+    return res.status(200).json({
+      success: "Login successfully",
+      token: authToken,
+      role: existEmail.role,
+    });
   } catch (error) {
     return res.status(500).json({ error: "Internal server error" });
   }
@@ -74,6 +78,6 @@ exports.deleteUserById = async (req, res) => {
     }
     res.status(200).json("User is deleted successfully");
   } catch (error) {
-    res.s;
+    res.status(500).json({ error: "Internal server error" });
   }
 };

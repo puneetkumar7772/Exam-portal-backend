@@ -1,6 +1,7 @@
 const User = require("../models/registerModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require('dotenv').config()
 
 exports.registerUser = async (req, res) => {
   try {
@@ -46,7 +47,7 @@ exports.loginUser = async (req, res) => {
     }
     const authToken = await jwt.sign(
       { id: existEmail.id, email: existEmail.email, role: existEmail.role },
-      "abcd"
+      process.env.JWT_SECRET_KEY
     );
     console.log("#########", authToken);
     return res.status(200).json({

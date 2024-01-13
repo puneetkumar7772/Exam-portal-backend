@@ -1,8 +1,11 @@
 const Category = require("../models/categoryModel");
 
 exports.addCategory = async (req, res) => {
+  console.log(req.user)
+  if(req.user.role!=='admin')
+  return res.status(403).json({error:"you are not admin"})
   try {
-    const { category, description } = req.body;
+    const { category, description} = req.body;
     const data = await Category.findOne({ category });
     if (data) {
       return res
@@ -12,18 +15,21 @@ exports.addCategory = async (req, res) => {
     const newCategory = new Category({
       category,
       description,
+      adminId:req.user._id
     });
     await newCategory.save();
 
-    res.status(201).json({ message: "Category Add successfully" });
+    return res.status(201).json({ message: "Category Add successfully" });
   } catch (error) {
-    res.status(400).json({ error: `Category Add is failed ${error}` });
+    return res.status(400).json({ error: `Category Add is failed ${error}` });
   }
 };
 
 exports.getCategory = async (req, res) => {
+  console.log(req.user.role)
   try {
-    const Categories = await Category.find();
+    const Categories = await Category.find(req.user.role==="admin" ? {adminId:req.user._id}:{});
+    console.log(Categories,"9999")
     res.status(200).json(Categories);
   } catch (error) {
     res.status(500).json({ error: "Category is not present" });

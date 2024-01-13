@@ -9,6 +9,10 @@ const addCategorySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  adminId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'User'
+  }
 });
 
 const Category = mongoose.model("category", addCategorySchema);
